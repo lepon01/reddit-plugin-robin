@@ -439,7 +439,7 @@ def populate(start=0, num_users=16384):
 
 
 def clear_all():
-    g.cache.delete("current_robin_room")
+    g.gencache.delete("current_robin_room")
     for cls in (RobinRoom, ParticipantVoteByRoom, ParticipantPresenceByRoom,
                 RoomsByParticipant):
         cls._cf.truncate()

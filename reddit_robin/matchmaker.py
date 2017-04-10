@@ -31,7 +31,7 @@ def run_waitinglist():
             return
 
         with g.make_lock("robin_room", "global"):
-            current_room_id = g.cache.get("current_robin_room")
+            current_room_id = g.gencache.get("current_robin_room")
             if not current_room_id:
                 current_room = make_new_room()
             else:
@@ -49,7 +49,7 @@ def run_waitinglist():
             print "added %s to %s" % (user.name, current_room.id)
 
             if current_room_id:
-                g.cache.delete("current_robin_room")
+                g.gencache.delete("current_robin_room")
                 current_room.persist_computed_name()
                 websockets.send_broadcast(
                     namespace="/robin/" + current_room.id,
@@ -59,7 +59,7 @@ def run_waitinglist():
                     },
                 )
             else:
-                g.cache.set("current_robin_room", current_room.id)
+                g.gencache.set("current_robin_room", current_room.id)
 
     amqp.consume_items("robin_waitinglist_q", process_waitinglist)
 
