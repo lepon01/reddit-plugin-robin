@@ -255,7 +255,7 @@ class RobinController(RedditController):
         events.vote(
             room=room,
             vote=vote,
-            sent_dt=datetime.datetime.utcnow(),
+            sent_dt=datetime.datetime.utcnow().replace(tzinfo=pytz.UTC),
             context=c,
             request=request,
         )
