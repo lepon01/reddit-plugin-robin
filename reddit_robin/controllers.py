@@ -219,7 +219,7 @@ class RobinController(RedditController):
         events.message(
             room=room,
             message=message,
-            sent_dt=datetime.datetime.utcnow(),
+            sent_dt=datetime.datetime.utcnow().replace(tzinfo=pytz.utc),
             context=c,
             request=request,
         )
