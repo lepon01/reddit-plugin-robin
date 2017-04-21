@@ -1,6 +1,6 @@
 # robin
 
-April Fools 2016
+April Fools 2016, for Clones (2017)
 
 ## Installation
 
@@ -15,17 +15,23 @@ sudo python setup.py develop
 Then add the plugin to your ini file:
 
 ```diff
-############################################ PLUGINS
-# which plugins are enabled (they must be installed via setup.py first)
+[DEFAULT]
 -plugins = about, liveupdate
 +plugins = about, liveupdate, robin
+
+[live_config]
+feature_robin = on
+feature_robin_on_homepage = on
+
+#I believe this is the ratelimit per tier. Please message if you want to clarify.
+robin_ratelimit_window = 1000000
+robin_ratelimit_avg_per_sec = 1:10000, 2:20000, 3:30000, 4:40000, 5:50000, 6:60000
 ```
 
-Then, re-run the reddit installation script:
+Then, make the files required for Robin:
 
 ```bash
-cd ~/src/reddit
-sudo ./install-reddit.sh
+sudo make
 ```
 
 Then, copy the upstart scripts:
@@ -44,8 +50,17 @@ echo 1 > robin_subreddit_maker_q
 sudo initctl emit reddit-start
 ```
 
-Finally, enable the cron jobs:
+Then, enable the cron jobs:
 
 ```bash
 sudo cp ~/src/robin/cron.d/* /etc/cron.d/
 ```
+
+Finally, restart the reddit-paster:
+
+```bash
+sudo service reddit-paster restart
+```
+
+## Things that are compatible
+Parrot works on it.
